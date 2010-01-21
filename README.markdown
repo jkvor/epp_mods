@@ -3,12 +3,11 @@
 ### parse_transform compile directive
 
 You can force the erlang compiler to execute a parse_transform 
-by either including a -compile({parse_transform}, mymodule) attribute
+by either including a -compile({parse_transform, mymodule}) attribute
 in your module or by using the +"{parse_transform, mymodule}" flag
 with erlc.
 
 	-module(foo).
-	-compile(export_all).
 	-compile({parse_transform, custom_guards}).
 	
 --or--
@@ -21,12 +20,12 @@ with erlc.
 adding a parse_transform compile directive to your module
 for custom_guards makes the following guards available:
 
-is_member(Key, Values)
+	is_member(Key, Values)
 	Key = term()
 	Values = [term()]
 
-is_required(Terms)
-is_required(Terms, Opts)
+	is_required(Terms)
+	is_required(Terms, Opts)
 	Terms = [any()] %% a list of variables to check
 	Opts = [ %% a proplist of options
 		{mode, active | passive}
@@ -37,7 +36,7 @@ is_required(Terms, Opts)
 __active__:  This is the default. Active mode will throw
 an error if a required field does not have
 a value. Errors are of the format:
-{error, {field_cannot_be_undefined, FieldName::atom()}}
+{error, {field_cannot_be_undefined, FieldName::atom()}}  
 __passive__: Passive mode adds guards to the function clause to
 ensure that execution will not enter that function
 if one of the required fields does not have a value.
